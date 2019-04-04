@@ -1,0 +1,100 @@
+// https://developers.google.com/places/web-service/details#PlaceDetailsResults
+// https://developers.google.com/maps/documentation/maps-static/intro
+// https://developers.google.com/places/web-service/search
+
+
+// usage =mapPlaceID(cell) where cell contains a regex of place you are looking for in Google Mpas
+// Output is a Google PlaceID which is used for other function calls
+function mapPlaceID(place) {
+  var API_KEY = 'insertyourkeyhere';
+  var url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=' +
+    place + '&inputtype=textquery&fields=formatted_address,place_id,name&output?json&key=' + API_KEY;
+  var response = UrlFetchApp.fetch(url);
+  var json = response.getContentText();
+  obj = JSON.parse(json);
+  let candidates = obj.candidates;
+  if (candidates[0]) {
+    return candidates[0].place_id;
+  } else {
+    return ''
+  }
+}
+
+// usage =mapAddress(PlaceID) where PlaceID is Google PlaceID i.e. "ChIJ8ctDmBi7j4AR495arWOQcw0"
+// see function above to get a Google PlaceID
+function mapAddress(place) {
+  var API_KEY = 'insertyourkeyhere';
+  var url = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=' +
+    place + '&inputtype=textquery&fields=formatted_address,name&output?json'+'&key=' + API_KEY;
+  var response = UrlFetchApp.fetch(url);
+  var json = response.getContentText();
+  obj = JSON.parse(json);
+  let candidates = obj.candidates;
+  if (candidates[0]) {
+    return candidates[0].formatted_address;
+  } else {
+    return '';
+  }
+}
+
+function mapPhoneNumber(place) {
+  var API_KEY = 'insertyourkeyhere';
+  var url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
+    place + '&fields=name,formatted_phone_number&key=' + API_KEY;
+  var response = UrlFetchApp.fetch(url);
+  var json = response.getContentText();
+  obj = JSON.parse(json);
+  let result = obj.result;
+  if (result) {
+    return result.formatted_phone_number;
+  } else {
+    return ''
+  }
+}
+
+
+function mapWebsite(place) {
+  var API_KEY = 'insertyourkeyhere';
+  var url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
+    place + '&fields=name,website&key=' + API_KEY;
+  var response = UrlFetchApp.fetch(url);
+  var json = response.getContentText();
+  obj = JSON.parse(json);
+  let result = obj.result;
+  if (result) {
+    return result.website;
+  } else {
+    return ''
+  }
+}
+
+
+function mapURL(place) {
+  var API_KEY = 'insertyourkeyhere';
+  var url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
+    place + '&fields=name,url&key=' + API_KEY;
+  var response = UrlFetchApp.fetch(url);
+  var json = response.getContentText();
+  obj = JSON.parse(json);
+  let result = obj.result;
+  if (result) {
+    return result.url;
+  } else {
+    return ''
+  }
+}
+
+function mapRating(place) {
+  var API_KEY = 'insertyourkeyhere';
+  var url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
+    place + '&fields=name,rating&key=' + API_KEY;
+  var response = UrlFetchApp.fetch(url);
+  var json = response.getContentText();
+  obj = JSON.parse(json);
+  let result = obj.result;
+  if (result) {
+    return result.rating;
+  } else {
+    return ''
+  }
+}
